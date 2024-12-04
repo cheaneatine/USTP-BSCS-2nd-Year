@@ -1,0 +1,93 @@
+class Node:
+    def __init__(self, key):
+        self.left = None
+        self.right = None
+        self.key = key
+
+def insert(root, key):
+    if root is None:
+        return Node(key)
+    else:
+        if key < root.key:
+            root.left = insert(root.left, key)
+        elif key > root.key:
+            root.right = insert(root.right, key)
+    return root
+
+def remove(root, key):
+    if root is None:
+        return root
+    if key < root.key:
+        root.left = remove(root.left, key)
+    elif key > root.key:
+        root.right = remove(root.right, key)
+    else:
+        if root.left is None:
+            return root.right
+        elif root.right is None:
+            return root.left
+        root.key = min_value_node(root.right)
+        root.right = remove(root.right, root.key)
+    return root
+
+def min_value_node(node):
+    current = node
+    while current.left is not None:
+        current = current.left
+    return current.key
+
+def search(root, key):
+    if root is None or root.key == key:
+        return root
+    if root.key < key:
+        return search(root.right, key)
+    return search(root.left, key)
+
+def preorder_traversal(root):
+    if root:
+        print(root.key, end=" ")
+        preorder_traversal(root.left)
+        preorder_traversal(root.right)
+
+def inorder_traversal(root):
+    if root:
+        inorder_traversal(root.left)
+        print(root.key, end=" ")
+        inorder_traversal(root.right)
+
+def postorder_traversal(root):
+    if root:
+        postorder_traversal(root.left)
+        postorder_traversal(root.right)
+        print(root.key, end=" ")
+
+if _name_ == "_main_":
+    root = None
+
+    print("Insert 5 to 10 numbers into the tree (or -1 to stop):")
+    for i in range(10):
+        num = int(input("Enter a number (1 to 10): "))
+        if num == -1:
+            break
+
+        if 1 <= num <= 10:
+            root = insert(root, num)
+
+    print("Pre-order Traversal:")
+    preorder_traversal(root)
+    print("\nIn-order Traversal:")
+    inorder_traversal(root)
+    print("\nPost-order Traversal:")
+    postorder_traversal(root)
+
+    num_to_search = int(input("Enter a number to search: "))
+    if search(root, num_to_search):
+        print(f"{num_to_search} is in the tree.")
+    else:
+        print(f"{num_to_search} is not in the tree.")
+
+    num_to_remove = int(input("Enter a number to remove: "))
+    root = remove(root, num_to_remove)
+
+    print("In-order Traversal after removal:")
+    inorder_traversal(root)

@@ -1,0 +1,39 @@
+class TodoList:
+    def __init__(self):
+        self.tasks = []
+
+    def add_task(self, task):
+        self.tasks.append(task)
+        print(f"Task '{task}' added to the list.")
+
+    def remove_task(self, task):
+        if task in self.tasks:
+            self.tasks.remove(task)
+            print(f"Task '{task}' removed from the list.")
+        else:
+            print(f"Task '{task}' not found in the list.")
+
+    def view_list(self):
+        if len(self.tasks) == 0:
+            print("The to-do list is empty.")
+        else:
+            print("To-Do List:")
+            for index, task in enumerate(self.tasks, start=1):
+                print(f"{index}. {task}")
+
+# Create a new to-do list
+my_todo_list = TodoList()
+
+# Add tasks to the list
+my_todo_list.add_task("Buy groceries")
+my_todo_list.add_task("Pay bills")
+my_todo_list.add_task("Go to the gym")
+
+# View the to-do list
+my_todo_list.view_list()
+
+# Remove a task from the list
+my_todo_list.remove_task("Pay bills")
+
+# View the updated to-do list
+my_todo_list.view_list()

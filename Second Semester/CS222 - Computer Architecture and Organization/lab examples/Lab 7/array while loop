@@ -1,0 +1,47 @@
+.data 
+	Array: .space 12
+	newline: .asciiz "\n"
+.text 
+	main:
+	#initiate 3 registers
+	addi $s0, $zero, 4
+	addi $s1, $zero, 10
+	addi $s2, $zero, 12
+	
+	#index =$t0
+	addi $t0, $zero, 0
+	
+	#store the values at right position
+	sw $s0, Array($t0)
+		addi $t0, $t0, 4
+	sw $s1, Array($t0)
+		addi $t0, $t0, 4
+	sw $s2, Array($t0)
+	
+	lw $t6, Array($zero)
+	
+	#clear $t0 to 0
+	addi $t0, $zero, 0
+	
+	while:
+		beq $t0, 12, exit
+		
+		lw $t6, Array($t0)
+		
+		addi $t0, $t0, 4
+		
+		#print current number
+		li $v0, 1
+		move $a0, $t6
+		syscall
+		
+		li $v0, 4
+		la $a0, newline
+		syscall
+		
+		j while
+		
+	exit:
+		li $v0, 10
+		syscall
+		
